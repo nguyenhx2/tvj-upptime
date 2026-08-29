@@ -43,26 +43,33 @@ status-website:
     - title: GitHub
       href: https://github.com/$OWNER/$REPO
 
-# Notifications — email to the same two recipients as Uptime Kuma.
+# Notifications — email, ENABLED, and configured entirely in repository secrets.
 #
-# NOT ENABLED YET: Upptime reads SMTP credentials from repository secrets and
-# there are none. Setting fake values would make every check fail loudly, so the
-# block below is commented out. To turn it on, add these repository secrets
-#   NOTIFICATION_SMTP_HOST, NOTIFICATION_SMTP_PORT,
-#   NOTIFICATION_SMTP_USERNAME, NOTIFICATION_SMTP_PASSWORD
-# and uncomment. See https://upptime.js.org/docs/notifications
+# There is deliberately no `notifications:` block here. Upptime v1.43 sends
+# email through its notifme channel, which reads secrets and nothing else; the
+# `notifications:` array is handled by a helper the published action never
+# imports, so a block here would be silently ignored. The secrets that matter,
+# on nguyenhx2/tvj-upptime:
 #
-# notifications:
-#   - type: email
-#     from: status@tvj.services
-#     to: nguyenhx1@gmail.com, nguyenhx@tinhvan.com
-#     smtp:
-#       host: $NOTIFICATION_SMTP_HOST
-#       port: $NOTIFICATION_SMTP_PORT
-#       secure: true
-#       auth:
-#         user: $NOTIFICATION_SMTP_USERNAME
-#         pass: $NOTIFICATION_SMTP_PASSWORD
+#   NOTIFICATION_EMAIL_SMTP=true      turns the SMTP provider on
+#   NOTIFICATION_EMAIL_SMTP_HOST      smtp.resend.com
+#   NOTIFICATION_EMAIL_SMTP_PORT      2587 — see below
+#   NOTIFICATION_EMAIL_SMTP_USERNAME  resend
+#   NOTIFICATION_EMAIL_SMTP_PASSWORD  a Resend API key
+#   NOTIFICATION_EMAIL_FROM           sender
+#   NOTIFICATION_EMAIL_TO             recipients, comma-separated
+#
+# Port 2587, not 465: Upptime hands nodemailer no `secure` flag, so the
+# connection has to be STARTTLS, and Resend publishes 2587 alongside 587 as an
+# alternate STARTTLS port for networks that block the standard ones.
+#
+# The four older NOTIFICATION_SMTP_* secrets belong to the ignored code path and
+# are not read by anything; they can be deleted.
+#
+# Recipients are narrower than Kuma's on purpose: until the Resend domain
+# tvj.services is verified, the sandbox sender onboarding@resend.dev may only
+# deliver to the account owner. Widen NOTIFICATION_EMAIL_TO the moment the
+# domain is verified. See https://upptime.js.org/docs/notifications
 
 # Keep short blips out of the issue tracker; anything longer is a real incident
 # and stays as an auditable GitHub Issue.
