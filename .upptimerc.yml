@@ -1,31 +1,69 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+# TVJ external watch — the outside witness for status.tvj.services.
+#
+# WHY THIS EXISTS
+# The primary status page is Uptime Kuma, self-hosted on Railway. It cannot
+# report its own outage, and it shares an infrastructure provider with some of
+# what it watches. Upptime runs entirely on GitHub Actions — different company,
+# different network — so it answers "who watches the watcher".
+#
+# It deliberately watches only TWO things: the Kuma status page itself, and the
+# one public CodeLens URL. Duplicating every monitor here would just create two
+# sources of truth. Kuma is the detail; this is the second opinion.
+#
+# Checks run every 5 minutes (a scheduled GitHub Action cannot go faster).
+# Incidents are GitHub Issues in this repo; uptime history is committed to
+# history/ by the workflows.
+
+owner: nguyenhx2
+repo: tvj-upptime
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Secret Site
-    url: $SECRET_SITE
+  - name: Status page
+    url: https://status.tvj.services
+  - name: CodeLens landing
+    url: https://codelens.tvj.jp/solution
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  # No custom domain: this page lives on GitHub Pages on purpose, so it stays
+  # up when TVJ's own DNS or Cloudflare account is the thing that is broken.
+  baseUrl: /tvj-upptime
+  name: TVJ external watch
+  introTitle: "**TVJ external watch** — an independent check on TVJ services, run from GitHub."
+  introMessage: >
+    This page is the *outside witness*. It runs on GitHub Actions, not on TVJ
+    infrastructure, and checks every 5 minutes. The primary status page with
+    per-component detail is [status.tvj.services](https://status.tvj.services);
+    if that page and this one disagree, trust this one about *reachability* and
+    that one about *which component* failed.
   navbar:
     - title: Status
       href: /
+    - title: TVJ status page
+      href: https://status.tvj.services
     - title: GitHub
       href: https://github.com/$OWNER/$REPO
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+# Notifications — email to the same two recipients as Uptime Kuma.
+#
+# NOT ENABLED YET: Upptime reads SMTP credentials from repository secrets and
+# there are none. Setting fake values would make every check fail loudly, so the
+# block below is commented out. To turn it on, add these repository secrets
+#   NOTIFICATION_SMTP_HOST, NOTIFICATION_SMTP_PORT,
+#   NOTIFICATION_SMTP_USERNAME, NOTIFICATION_SMTP_PASSWORD
+# and uncomment. See https://upptime.js.org/docs/notifications
+#
+# notifications:
+#   - type: email
+#     from: status@tvj.services
+#     to: nguyenhx1@gmail.com, nguyenhx@tinhvan.com
+#     smtp:
+#       host: $NOTIFICATION_SMTP_HOST
+#       port: $NOTIFICATION_SMTP_PORT
+#       secure: true
+#       auth:
+#         user: $NOTIFICATION_SMTP_USERNAME
+#         pass: $NOTIFICATION_SMTP_PASSWORD
+
+# Keep short blips out of the issue tracker; anything longer is a real incident
+# and stays as an auditable GitHub Issue.
+skipDeleteIssues: false
