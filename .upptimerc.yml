@@ -63,8 +63,22 @@ status-website:
 # connection has to be STARTTLS, and Resend publishes 2587 alongside 587 as an
 # alternate STARTTLS port for networks that block the standard ones.
 #
-# The four older NOTIFICATION_SMTP_* secrets belong to the ignored code path and
-# are not read by anything; they can be deleted.
+#   NOTIFICATIONS_DOWN_MESSAGE        the DOWN subject+body, one line
+#   NOTIFICATIONS_UP_MESSAGE          the UP subject+body, one line
+#
+# The four older NOTIFICATION_SMTP_* secrets belonged to the ignored code path
+# and were deleted on 2026-08-30.
+#
+# ON THE MESSAGE TEXT
+# notifme is handed `subject: message, html: message` — the SAME string for
+# both — so there is no separate body to design and no HTML worth writing: a
+# multi-line body would become a multi-line subject. What Upptime does offer is
+# the wording, through those two secrets, whose placeholders are substituted
+# before the send: $SITE_NAME, $SITE_URL (already parenthesised),
+# $RESPONSE_CODE and $ISSUE_URL on down, $SITE_NAME and $SITE_URL on up.
+# They are set to the bilingual one-liners that match the Kuma subject line, so
+# both alert paths read the same in an inbox even though only Kuma can carry
+# the designed HTML. See tvj-status/docs/setup.md, "Alert e-mail design".
 #
 # tvj.services is verified in Resend (2026-08-30), so FROM is
 # status@tvj.services and TO carries both recipients, comma-separated — the
