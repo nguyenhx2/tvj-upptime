@@ -66,10 +66,9 @@ status-website:
 # The four older NOTIFICATION_SMTP_* secrets belong to the ignored code path and
 # are not read by anything; they can be deleted.
 #
-# Recipients are narrower than Kuma's on purpose: until the Resend domain
-# tvj.services is verified, the sandbox sender onboarding@resend.dev may only
-# deliver to the account owner. Widen NOTIFICATION_EMAIL_TO the moment the
-# domain is verified. See https://upptime.js.org/docs/notifications
+# tvj.services is verified in Resend (2026-08-30), so FROM is
+# status@tvj.services and TO carries both recipients, comma-separated — the
+# same pair Kuma uses. See https://upptime.js.org/docs/notifications
 
 # Keep short blips out of the issue tracker; anything longer is a real incident
 # and stays as an auditable GitHub Issue.
