@@ -6,9 +6,10 @@
 # what it watches. Upptime runs entirely on GitHub Actions — different company,
 # different network — so it answers "who watches the watcher".
 #
-# It deliberately watches only TWO things: the Kuma status page itself, and the
-# one public CodeLens URL. Duplicating every monitor here would just create two
-# sources of truth. Kuma is the detail; this is the second opinion.
+# It deliberately watches the Kuma status page itself, and ONE public URL per
+# product — never a copy of that product's monitors. Duplicating every monitor
+# here would just create two sources of truth. Kuma is the detail; this is the
+# second opinion.
 #
 # Checks run every 5 minutes (a scheduled GitHub Action cannot go faster).
 # Incidents are GitHub Issues in this repo; uptime history is committed to
@@ -22,6 +23,10 @@ sites:
     url: https://status.tvj.services
   - name: CodeLens landing
     url: https://codelens.tvj.jp/solution
+  # CloudVise's public face. One URL, not a copy of Kuma's five CloudVise
+  # monitors — the database and render-service checks stay where the detail is.
+  - name: CloudVise landing
+    url: https://cloudvise.tvj.services
 
 status-website:
   # No custom domain: this page lives on GitHub Pages on purpose, so it stays
