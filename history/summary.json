@@ -34,5 +34,23 @@
     "timeMonth": 493,
     "timeYear": 493,
     "dailyMinutesDown": {}
+  },
+  {
+    "name": "CloudVise landing",
+    "url": "https://cloudvise.tvj.services",
+    "icon": "https://icons.duckduckgo.com/ip3/cloudvise.tvj.services.ico",
+    "slug": "cloud-vise-landing",
+    "status": "up",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 0,
+    "timeDay": 0,
+    "timeWeek": 0,
+    "timeMonth": 0,
+    "timeYear": 0,
+    "dailyMinutesDown": {}
   }
 ]
