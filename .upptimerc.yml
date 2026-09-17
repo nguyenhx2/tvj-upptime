@@ -23,10 +23,25 @@ sites:
     url: https://status.tvj.services
   - name: CodeLens landing
     url: https://codelens.tvj.jp/solution
+  # NexusIQ's public face, in the same place it has on the Kuma page (right
+  # after CodeLens). One URL, not a copy of Kuma's five NexusIQ monitors — the
+  # API, background-jobs and AI-gateway checks stay where the detail is.
+  - name: NexusIQ landing
+    url: https://nexusiq.tvj.services
   # CloudVise's public face. One URL, not a copy of Kuma's five CloudVise
   # monitors — the database and render-service checks stay where the detail is.
   - name: CloudVise landing
     url: https://cloudvise.tvj.services
+  # The Namecard Creator (meishi) is a single page served by a Cloudflare
+  # Worker, so its root IS the product. Kuma keeps the separate brand-asset check.
+  - name: Namecard Creator
+    url: https://meishi.tvj.services
+  # koe's root answers 303 to /admin, so the outside witness asks for the page
+  # a person actually lands on rather than depending on redirect handling.
+  # Kuma keeps the database check (/health); real forms sit behind unguessable
+  # links and are never probed.
+  - name: koe composer
+    url: https://koe.tvj.services/admin
 
 status-website:
   # No custom domain: this page lives on GitHub Pages on purpose, so it stays
